@@ -1,38 +1,37 @@
+substitutions:
+  _IMAGE_NAME: 'us-east1-docker.pkg.dev/${PROJECT_ID}/cloud-run-source-deploy/icearth-v3:${COMMIT_SHA}'
+
 steps:
   # Step 1: Build Docker container image
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '-t'
-      - 'us-east1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA'
-      - '-t'
-      - 'us-east1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/icearth-v3:latest'
+      - '$_IMAGE_NAME'
       - '.'
 
   # Step 2: Push container image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - '--all-tags'
-      - 'us-east1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/icearth-v3'
+      - '$_IMAGE_NAME'
 
-  # Step 3: Deploy to Cloud Run
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
+  # Step 3: Deploy container to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
     args:
       - 'run'
       - 'deploy'
       - 'roulet-s-law-book-icearth-platform'
-      - '--image=us-east1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA'
+      - '--image=$_IMAGE_NAME'
       - '--region=us-east1'
-      - '--project=$PROJECT_ID'
+      - '--platform=managed'
       - '--quiet'
       - '--allow-unauthenticated'
 
 images:
-  - 'us-east1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA'
-  - 'us-east1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/icearth-v3:latest'
+  - '$_IMAGE_NAME'
 
 options:
   logging: CLOUD_LOGGING_ONLY
+
 

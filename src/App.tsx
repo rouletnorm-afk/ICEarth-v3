@@ -1,4 +1,4 @@
-// ICEarth Sovereign Portal Release v3.5 - Direct Container Deployment with IAM Cloud Run Admin Authorization
+// ICEarth Sovereign Portal Release v3.6 - Resilience Pipeline with Trigger Substitution Variable Support
 import React, { useState, useEffect, useRef } from 'react';
 import {
   BookOpen,

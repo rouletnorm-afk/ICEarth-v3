@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci || npm install
+RUN npm install
 
 # Copy source code
 COPY . .
@@ -21,15 +21,16 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=8080
 
-# Copy package files and install only production dependencies
+# Copy package files and install production dependencies
 COPY package*.json ./
-RUN npm ci --only=production || npm install --only=production
+RUN npm install --only=production
 
 # Copy dist build artifacts from builder
 COPY --from=builder /app/dist ./dist
 
-# Expose Cloud Run default port
+# Expose both 8080 and 3000 to satisfy any Cloud Run port configuration or probe
 EXPOSE 8080
+EXPOSE 3000
 
 # Start server
 CMD ["node", "dist/server.cjs"]

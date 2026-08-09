@@ -1,4 +1,4 @@
-// ICEarth Sovereign Portal Release v2.4 - Multi-Stage Docker Build for Cloud Run
+// ICEarth Sovereign Portal Release v2.5 - Production Multi-Stage Docker Container
 import React, { useState, useEffect, useRef } from 'react';
 import {
   BookOpen,

@@ -4,7 +4,7 @@ substitutions:
   _REGION: 'us-east1'
 
 steps:
-  # Step 1: Build Docker container image
+  # Step 0: Build Docker container image
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
@@ -12,13 +12,13 @@ steps:
       - '$_IMAGE_NAME'
       - '.'
 
-  # Step 2: Push container image to Google Container Registry
+  # Step 1: Push container image to Google Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
       - '$_IMAGE_NAME'
 
-  # Step 3: Deploy container image to Cloud Run
+  # Step 2: Deploy container image to Cloud Run
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       - 'run'

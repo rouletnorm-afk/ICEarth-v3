@@ -25,6 +25,7 @@ steps:
       - '--image=$_IMAGE_NAME'
       - '--region=us-east1'
       - '--platform=managed'
+      - '--remove-annotations=run.googleapis.com/sources'
       - '--quiet'
       - '--allow-unauthenticated'
 

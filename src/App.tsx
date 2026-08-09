@@ -1,4 +1,4 @@
-// ICEarth Sovereign Portal Release v3.6 - Resilience Pipeline with Trigger Substitution Variable Support
+// ICEarth Sovereign Portal Release v3.8 - Cloud Run Direct Container Deployment Fix & Stale Source Annotation Stripping
 import React, { useState, useEffect, useRef } from 'react';
 import {
   BookOpen,

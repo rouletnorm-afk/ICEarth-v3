@@ -1,7 +1,6 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
-import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 
 dotenv.config();
@@ -685,6 +684,7 @@ To resolve this multi-trillion-dollar environmental crisis, ICEarth integrates p
 async function startServer() {
   const isProduction = process.env.NODE_ENV === "production" || Boolean(process.env.K_SERVICE) || process.env.PORT !== undefined;
   if (!isProduction) {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",

@@ -1,4 +1,4 @@
-// ICEarth Sovereign Portal Release
+// ICEarth Sovereign Portal Release v2.1 - Cloud Run Docker Deployment Build
 import React, { useState, useEffect, useRef } from 'react';
 import {
   BookOpen,

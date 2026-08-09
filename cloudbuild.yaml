@@ -26,19 +26,11 @@ steps:
         SERVICE_NAME="roulet-s-law-book-icearth-platform"
         REGION="us-east1"
 
-        echo "Checking for existing Cloud Run service definition..."
+        echo "Exporting Cloud Run service definition..."
         if gcloud run services describe "$SERVICE_NAME" --region="$REGION" --format=export > service.yaml 2>/dev/null; then
           echo "Found existing service configuration. Stripping stale source annotations..."
-          python3 -c "
-import sys, re
-with open('service.yaml', 'r') as f:
-    lines = f.readlines()
-clean_lines = [l for l in lines if 'run.googleapis.com/sources' not in l and 'run.googleapis.com/source-location' not in l]
-content = ''.join(clean_lines)
-content = re.sub(r'image:\s+.*', f'image: {sys.argv[1]}', content)
-with open('service.yaml', 'w') as f:
-    f.write(content)
-" "$IMAGE_URI"
+          sed -i '/run\.googleapis\.com\/source/d' service.yaml
+          sed -i "s|image: .*|image: $IMAGE_URI|g" service.yaml
 
           echo "Applying cleaned service definition..."
           gcloud run services replace service.yaml --region="$REGION" || true
@@ -59,5 +51,3 @@ images:
 
 options:
   logging: CLOUD_LOGGING_ONLY
-
-

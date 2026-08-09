@@ -26,14 +26,38 @@ steps:
         SERVICE_NAME="roulet-s-law-book-icearth-platform"
         REGION="us-east1"
 
-        echo "Exporting Cloud Run service definition..."
-        if gcloud run services describe "$SERVICE_NAME" --region="$REGION" --format=export > service.yaml 2>/dev/null; then
-          echo "Found existing service configuration. Stripping stale source annotations..."
-          sed -i '/run\.googleapis\.com\/source/d' service.yaml
-          sed -i "s|image: .*|image: $IMAGE_URI|g" service.yaml
+        echo "Exporting Cloud Run service definition as JSON..."
+        if gcloud run services describe "$SERVICE_NAME" --region="$REGION" --format=json > service.json 2>/dev/null; then
+          echo "Found existing service configuration. Stripping stale source annotations via Python JSON..."
+          python3 -c "
+import json, sys
+
+with open('service.json', 'r') as f:
+    data = json.load(f)
+
+# Strip source annotations from top-level metadata
+if 'metadata' in data and 'annotations' in data['metadata']:
+    data['metadata']['annotations'].pop('run.googleapis.com/sources', None)
+    data['metadata']['annotations'].pop('run.googleapis.com/source-location', None)
+
+# Strip source annotations from revision template metadata
+if 'spec' in data and 'template' in data.get('spec', {}):
+    template = data['spec']['template']
+    if 'metadata' in template and 'annotations' in template.get('metadata', {}):
+        template['metadata']['annotations'].pop('run.googleapis.com/sources', None)
+        template['metadata']['annotations'].pop('run.googleapis.com/source-location', None)
+    
+    # Update container image
+    containers = template.get('spec', {}).get('containers', [])
+    if containers:
+        containers[0]['image'] = sys.argv[1]
+
+with open('service.json', 'w') as f:
+    json.dump(data, f, indent=2)
+" "$IMAGE_URI"
 
           echo "Applying cleaned service definition..."
-          gcloud run services replace service.yaml --region="$REGION" || true
+          gcloud run services replace service.json --region="$REGION" || true
         fi
 
         echo "Deploying container image to Cloud Run service $SERVICE_NAME..."

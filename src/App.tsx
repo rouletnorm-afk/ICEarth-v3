@@ -1,4 +1,4 @@
-// ICEarth Sovereign Portal Release v3.9 - Clear Annotations & Service Account Cloud Run Deployment Pipeline
+// ICEarth Sovereign Portal Release v4.2 - Automated YAML Stale Source Annotation Cleanup & Direct Container Deploy Pipeline
 import React, { useState, useEffect, useRef } from 'react';
 import {
   BookOpen,

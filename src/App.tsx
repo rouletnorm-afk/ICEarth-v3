@@ -1,4 +1,4 @@
-// ICEarth Sovereign Portal Release v3.3 - Automatic Traffic Routing & Source Annotation Stripping
+// ICEarth Sovereign Portal Release v3.5 - Direct Container Deployment with IAM Cloud Run Admin Authorization
 import React, { useState, useEffect, useRef } from 'react';
 import {
   BookOpen,

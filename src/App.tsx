@@ -1,4 +1,4 @@
-// ICEarth Sovereign Portal Release v2.7 - Production Cloud Run Build with Health Endpoint
+// ICEarth Sovereign Portal Release v2.8 - Production Cloud Run Build with Automatic Deployment
 import React, { useState, useEffect, useRef } from 'react';
 import {
   BookOpen,

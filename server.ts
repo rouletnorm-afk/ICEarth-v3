@@ -680,6 +680,11 @@ To resolve this multi-trillion-dollar environmental crisis, ICEarth integrates p
   }
 });
 
+// Health check route for Cloud Run container probes
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", port: PORT, env: process.env.NODE_ENV || "development" });
+});
+
 // Vite middleware for development
 async function startServer() {
   const isProduction = process.env.NODE_ENV === "production" || Boolean(process.env.K_SERVICE) || process.env.PORT !== undefined;

@@ -1,4 +1,4 @@
-// ICEarth Sovereign Portal Release v2.5 - Production Multi-Stage Docker Container
+// ICEarth Sovereign Portal Release v2.6 - Single-Stage Production Container with Health Probe
 import React, { useState, useEffect, useRef } from 'react';
 import {
   BookOpen,

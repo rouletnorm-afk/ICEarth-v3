@@ -699,21 +699,8 @@ async function startServer() {
   }
 
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://0.0.0.0:${PORT} in ${isProduction ? "production" : "development"} mode`);
+    console.log(`Server listening on http://0.0.0.0:${PORT} (${isProduction ? "production" : "development"} mode)`);
   });
-
-  if (PORT !== 3000) {
-    try {
-      const server3000 = app.listen(3000, "0.0.0.0", () => {
-        console.log(`Secondary listener active on http://0.0.0.0:3000`);
-      });
-      server3000.on('error', (err: any) => {
-        console.log("Port 3000 listener info:", err?.message || err);
-      });
-    } catch (e) {
-      console.log("Port 3000 binding skipped:", e);
-    }
-  }
 }
 
 startServer();

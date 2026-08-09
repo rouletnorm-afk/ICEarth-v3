@@ -1,36 +1,23 @@
-# Stage 1: Build static assets and backend server
-FROM node:20-slim AS builder
+FROM node:20-slim
+
 WORKDIR /app
 
-# Copy package management files
+# Copy package manifests
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy source code
+# Copy application source code
 COPY . .
 
-# Build Vite frontend and esbuild server backend into dist/
+# Build Vite frontend and esbuild server bundle into dist/
 RUN npm run build
 
-# Stage 2: Minimal Production Image
-FROM node:20-slim AS runner
-WORKDIR /app
-
+# Environment settings for Cloud Run
 ENV NODE_ENV=production
 ENV PORT=8080
 
-# Copy package files and install production dependencies
-COPY package*.json ./
-RUN npm install --only=production
-
-# Copy dist build artifacts from builder
-COPY --from=builder /app/dist ./dist
-
-# Expose both 8080 and 3000 to satisfy any Cloud Run port configuration or probe
 EXPOSE 8080
-EXPOSE 3000
 
-# Start server
 CMD ["node", "dist/server.cjs"]

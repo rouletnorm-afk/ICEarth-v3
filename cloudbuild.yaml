@@ -22,3 +22,6 @@ steps:
 
 images:
   - 'us-east1-docker.pkg.dev/level-rarity-9r6z7/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

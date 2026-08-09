@@ -1,0 +1,6 @@
+{
+  "name": "Roulet's Law Book & ICEarth Platform",
+  "description": "An interactive book reader, data simulator, and technology platform hub dedicated to Roulet's Law of lead poisoning, the pre-industrial Homo Sapiens 0 baseline, and decentralized environmental remediation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

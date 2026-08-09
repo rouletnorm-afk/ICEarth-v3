@@ -16,7 +16,7 @@ steps:
       - '--all-tags'
       - 'us-east1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/icearth-v3'
 
-  # Step 3: Deploy container directly to Cloud Run
+  # Step 3: Deploy container directly to Cloud Run and route 100% traffic
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
@@ -26,8 +26,10 @@ steps:
       - '--image=us-east1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA'
       - '--region=us-east1'
       - '--project=$PROJECT_ID'
+      - '--service-account=568434421085-compute@developer.gserviceaccount.com'
+      - '--remove-annotations=run.googleapis.com/sources,run.googleapis.com/source-location'
+      - '--to-latest'
       - '--quiet'
-      - '--platform=managed'
       - '--allow-unauthenticated'
 
 images:

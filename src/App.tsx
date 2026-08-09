@@ -1,4 +1,4 @@
-// ICEarth Sovereign Portal Release v3.1 - Fully Automated Cloud Run Deployment Pipeline
+// ICEarth Sovereign Portal Release v3.3 - Automatic Traffic Routing & Source Annotation Stripping
 import React, { useState, useEffect, useRef } from 'react';
 import {
   BookOpen,

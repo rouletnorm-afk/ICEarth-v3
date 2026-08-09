@@ -1,13 +1,22 @@
 steps:
   # Step 1: Build Docker container image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-east1-docker.pkg.dev/level-rarity-9r6z7/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA', '.']
+    args:
+      - 'build'
+      - '-t'
+      - 'us-east1-docker.pkg.dev/level-rarity-9r6z7/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA'
+      - '-t'
+      - 'us-east1-docker.pkg.dev/level-rarity-9r6z7/cloud-run-source-deploy/icearth-v3:latest'
+      - '.'
 
-  # Step 2: Push image to Google Artifact Registry
+  # Step 2: Push container image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-east1-docker.pkg.dev/level-rarity-9r6z7/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA']
+    args:
+      - 'push'
+      - '--all-tags'
+      - 'us-east1-docker.pkg.dev/level-rarity-9r6z7/cloud-run-source-deploy/icearth-v3'
 
-  # Step 3: Deploy to Cloud Run and clear stale Buildpack annotations
+  # Step 3: Deploy container directly to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
@@ -17,11 +26,11 @@ steps:
       - '--image=us-east1-docker.pkg.dev/level-rarity-9r6z7/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA'
       - '--region=us-east1'
       - '--platform=managed'
-      - '--remove-annotations=run.googleapis.com/sources'
       - '--allow-unauthenticated'
 
 images:
   - 'us-east1-docker.pkg.dev/level-rarity-9r6z7/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA'
+  - 'us-east1-docker.pkg.dev/level-rarity-9r6z7/cloud-run-source-deploy/icearth-v3:latest'
 
 options:
   logging: CLOUD_LOGGING_ONLY

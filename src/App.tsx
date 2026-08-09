@@ -1,4 +1,4 @@
-// ICEarth Sovereign Portal Release v3.0 - Automated Cloud Run Container Pipeline
+// ICEarth Sovereign Portal Release v3.1 - Fully Automated Cloud Run Deployment Pipeline
 import React, { useState, useEffect, useRef } from 'react';
 import {
   BookOpen,

@@ -4,9 +4,9 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'us-east1-docker.pkg.dev/level-rarity-9r6z7/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA'
+      - 'us-east1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA'
       - '-t'
-      - 'us-east1-docker.pkg.dev/level-rarity-9r6z7/cloud-run-source-deploy/icearth-v3:latest'
+      - 'us-east1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/icearth-v3:latest'
       - '.'
 
   # Step 2: Push container image to Artifact Registry
@@ -14,7 +14,7 @@ steps:
     args:
       - 'push'
       - '--all-tags'
-      - 'us-east1-docker.pkg.dev/level-rarity-9r6z7/cloud-run-source-deploy/icearth-v3'
+      - 'us-east1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/icearth-v3'
 
   # Step 3: Deploy container directly to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -23,14 +23,16 @@ steps:
       - 'run'
       - 'deploy'
       - 'roulet-s-law-book-icearth-platform'
-      - '--image=us-east1-docker.pkg.dev/level-rarity-9r6z7/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA'
+      - '--image=us-east1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA'
       - '--region=us-east1'
+      - '--project=$PROJECT_ID'
+      - '--quiet'
       - '--platform=managed'
       - '--allow-unauthenticated'
 
 images:
-  - 'us-east1-docker.pkg.dev/level-rarity-9r6z7/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA'
-  - 'us-east1-docker.pkg.dev/level-rarity-9r6z7/cloud-run-source-deploy/icearth-v3:latest'
+  - 'us-east1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/icearth-v3:$COMMIT_SHA'
+  - 'us-east1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/icearth-v3:latest'
 
 options:
   logging: CLOUD_LOGGING_ONLY

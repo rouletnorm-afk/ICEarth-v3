@@ -1,4 +1,4 @@
-// ICEarth Sovereign Portal Release v2.6 - Single-Stage Production Container with Health Probe
+// ICEarth Sovereign Portal Release v2.7 - Production Cloud Run Build with Health Endpoint
 import React, { useState, useEffect, useRef } from 'react';
 import {
   BookOpen,

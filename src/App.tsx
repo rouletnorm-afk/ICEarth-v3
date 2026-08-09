@@ -1,4 +1,4 @@
-// ICEarth Sovereign Portal Release v3.8 - Cloud Run Direct Container Deployment Fix & Stale Source Annotation Stripping
+// ICEarth Sovereign Portal Release v3.9 - Clear Annotations & Service Account Cloud Run Deployment Pipeline
 import React, { useState, useEffect, useRef } from 'react';
 import {
   BookOpen,
